@@ -6,7 +6,7 @@ class CustomElevatedButton extends StatelessWidget {
   const CustomElevatedButton({
     super.key,
     required this.value,
-    required this.nextPage,
+    required this.onPressedFunc,
     this.buttonColor = primaryColor,
     this.buttonForegroungColor = Colors.white,
     this.buttonElevation = 0,
@@ -14,10 +14,11 @@ class CustomElevatedButton extends StatelessWidget {
     this.isExpanded = false,
     this.sided = false,
     this.sideColor = primaryColor,
+    this.replace,
   });
 
   final String value;
-  final Widget nextPage;
+  final VoidCallback onPressedFunc;
   final double buttonElevation;
   final Color buttonColor;
   final Color buttonForegroungColor;
@@ -25,6 +26,7 @@ class CustomElevatedButton extends StatelessWidget {
   final bool isExpanded;
   final bool sided;
   final Color sideColor;
+  final bool? replace;
 
   @override
   Widget build(BuildContext context) {
@@ -48,14 +50,7 @@ class CustomElevatedButton extends StatelessWidget {
               )
             : BorderSide.none,
       ),
-      onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => nextPage,
-          ),
-        );
-      },
+      onPressed: onPressedFunc,
       child: (child is Text)
           ? Text(
               value,

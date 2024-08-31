@@ -1,18 +1,82 @@
+import 'dart:convert';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:pulse/constants.dart';
 import 'package:pulse/custom_widgets/custom_text_field.dart';
 import 'package:pulse/screens/b4_home_page.dart';
-// import 'package:pulse/screens/home_page.dart';
 import 'package:pulse/screens/pending.dart';
 import 'package:pulse/screens/signup_page.dart';
-
 import '../custom_widgets/custom_elevated_button.dart';
-// import 'home_page.dart';
+import 'package:flutter/services.dart' show rootBundle;
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  String errorMessage = '';
+
+  /// Function to load and parse the JSON file containing user data
+  Future<List<Map<String, String>>> _loadUserData() async {
+    final String response = await rootBundle.loadString('assets/users.json');
+    final data = json.decode(response) as Map<String, dynamic>;
+
+    // Safely parse the list of users ensuring each user is a Map<String, String>
+    List<Map<String, String>> users = (data['users'] as List)
+        .map((user) => {
+              'email': user['email'].toString(),
+              'password': user['password'].toString(),
+            })
+        .toList();
+    return users;
+  }
+
+  /// Function to authenticate the user based on email and password
+  Future<void> _authenticateUser() async {
+    final String email = emailController.text.trim();
+    final String password = passwordController.text;
+
+    // Load user data from JSON
+    final List<Map<String, String>> users = await _loadUserData();
+
+    // Check if the entered credentials match any user in the JSON file
+    final isAuthenticated = users.any(
+      (user) => user['email'] == email && user['password'] == password,
+    );
+    String userID = '';
+
+    for (var user in users) {
+      if (isAuthenticated && user['email'] == email) {
+        userID = user['id'].toString();
+      }
+    }
+
+    // Ensure the widget is still mounted before calling setState
+    if (mounted) {
+      if (isAuthenticated) {
+        // Navigate to the home page if authentication is successful
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => B4HomePage(
+              userID: userID,
+            ),
+          ),
+        );
+      } else {
+        // Show an error message if authentication fails
+        setState(() {
+          errorMessage = 'Invalid email or password. Please try again.';
+        });
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,16 +113,29 @@ class LoginPage extends StatelessWidget {
               child: Column(
                 children: [
                   smallSpace,
-                  const CustomTextFormField(
+                  CustomTextFormField(
                     hint: 'Email',
-                    prefixIcon: Icon(Icons.mail_outline_rounded),
+                    prefixIcon: const Icon(Icons.mail_outline_rounded),
                     textInputType: TextInputType.emailAddress,
+                    controller: emailController,
                   ),
                   smallSpace,
-                  const CustomTextFormField(
+                  CustomTextFormField(
                     hint: 'Password',
-                    prefixIcon: Icon(Icons.lock_outline_rounded),
+                    prefixIcon: const Icon(Icons.lock_outline_rounded),
+                    controller: passwordController,
                   ),
+                  if (errorMessage.isNotEmpty)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: Text(
+                        errorMessage,
+                        style: const TextStyle(
+                          color: Colors.red,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
                   Container(
                     alignment: Alignment.centerRight,
                     child: TextButton(
@@ -74,11 +151,13 @@ class LoginPage extends StatelessWidget {
                     ),
                   ),
                   smallSpace,
-                  const CustomElevatedButton(
+                  CustomElevatedButton(
                     value: 'Login',
-                    nextPage: B4HomePage(),
+                    onPressedFunc:
+                        _authenticateUser, // Call authenticate function
                     buttonElevation: 5,
                     isExpanded: true,
+                    replace: true,
                   ),
                   smallSpace,
                   Text.rich(
@@ -136,7 +215,14 @@ class LoginPage extends StatelessWidget {
                   smallSpace2x,
                   CustomElevatedButton(
                     value: 'Google',
-                    nextPage: const Pending(),
+                    onPressedFunc: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const Pending(),
+                        ),
+                      );
+                    },
                     isExpanded: true,
                     buttonColor: secondaryColor,
                     buttonForegroungColor: primaryColor,
@@ -159,14 +245,21 @@ class LoginPage extends StatelessWidget {
                     ),
                   ),
                   smallSpace,
-                  const CustomElevatedButton(
+                  CustomElevatedButton(
                     value: 'Apple',
-                    nextPage: Pending(),
+                    onPressedFunc: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const Pending(),
+                        ),
+                      );
+                    },
                     isExpanded: true,
                     buttonColor: secondaryColor,
                     buttonForegroungColor: primaryColor,
                     sided: true,
-                    child: Row(
+                    child: const Row(
                       children: [
                         Icon(
                           Icons.apple_outlined,
@@ -189,7 +282,14 @@ class LoginPage extends StatelessWidget {
                   smallSpace,
                   CustomElevatedButton(
                     value: 'Facebook',
-                    nextPage: const Pending(),
+                    onPressedFunc: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const Pending(),
+                        ),
+                      );
+                    },
                     isExpanded: true,
                     buttonColor: secondaryColor,
                     buttonForegroungColor: primaryColor,

@@ -9,11 +9,13 @@ class CustomTextFormField extends StatefulWidget {
     required this.hint,
     required this.prefixIcon,
     this.textInputType = TextInputType.text,
+    this.controller,
   });
 
   final String hint;
   final Icon prefixIcon;
   final TextInputType textInputType;
+  final TextEditingController? controller;
 
   @override
   State<CustomTextFormField> createState() => _CustomTextFormFieldState();
@@ -41,6 +43,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         cursorColor: primaryColor,
         keyboardType: widget.textInputType,
         textCapitalization: TextCapitalization.none,
+        controller: widget.controller,
         style: TextStyle(
           color: black,
           fontSize: (0.02 * screenHeight),

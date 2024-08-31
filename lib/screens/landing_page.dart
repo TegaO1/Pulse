@@ -71,15 +71,29 @@ class LandingPage extends StatelessWidget {
             SizedBox(
               height: (0.06 * screenHeight),
             ),
-            const CustomElevatedButton(
+            CustomElevatedButton(
               value: 'Login',
-              nextPage: LoginPage(),
+              onPressedFunc: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const LoginPage(),
+                  ),
+                );
+              },
               buttonElevation: 5,
             ),
             smallSpace,
-            const CustomElevatedButton(
+            CustomElevatedButton(
               value: 'Sign Up',
-              nextPage: SignUpPage(),
+              onPressedFunc: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const SignUpPage(),
+                  ),
+                );
+              },
               buttonColor: Colors.white,
               buttonForegroungColor: primaryColor,
               sided: true,

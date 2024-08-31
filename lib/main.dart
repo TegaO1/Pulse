@@ -15,5 +15,5 @@ class PulseApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: LandingPage(),
     );
-  } 
+  }
 }

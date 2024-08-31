@@ -4,6 +4,7 @@ import 'package:icons_plus/icons_plus.dart';
 import 'package:pulse/constants.dart';
 import 'package:pulse/custom_widgets/custom_dropdown_button.dart';
 import 'package:pulse/custom_widgets/custom_elevated_button.dart';
+import 'package:pulse/screens/b4_home_page.dart';
 import 'package:pulse/screens/pending.dart';
 
 import '../custom_widgets/custom_text_field.dart';
@@ -137,9 +138,16 @@ class _SignUpPageState extends State<SignUpPage> {
                     ],
                   ),
                   smallSpace2x,
-                  const CustomElevatedButton(
+                  CustomElevatedButton(
                     value: 'Sign Up',
-                    nextPage: Pending(),
+                    onPressedFunc: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const Pending(),
+                        ),
+                      );
+                    },
                     isExpanded: true,
                     buttonElevation: 5,
                   )

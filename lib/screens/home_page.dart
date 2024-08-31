@@ -1,22 +1,66 @@
 import 'package:flutter/material.dart';
 import 'package:pulse/constants.dart';
+import 'package:pulse/custom_widgets/custom_elevated_button.dart';
+import 'package:pulse/fetch_data.dart'; // Import the fetchHeartHealthData function from this file
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  const HomePage({
+    super.key,
+    required this.userInfo,
+  });
+
+  final Map<String, String> userInfo;
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  // Sample list of health news items
-  final List<String> healthNews = [
-    'Regular exercise can help you maintain a healthy weight.',
-    'Eating a balanced diet is crucial for good health.',
-    'Stay hydrated by drinking plenty of water.',
-    'Adequate sleep is important for overall well-being.',
-    'Mental health is just as important as physical health.',
-  ];
+  List<dynamic> healthNews = [];
+  bool isLoading = true;
+  bool hasError = false;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchHealthNews();
+  }
+
+  @override
+  void dispose() {
+    // Clean up resources if needed
+    super.dispose();
+  }
+
+  // Function to fetch health news and handle errors
+  Future<void> fetchHealthNews() async {
+    if (!mounted) return; // Check if widget is still mounted
+
+    setState(() {
+      isLoading = true;
+      hasError = false;
+    });
+
+    try {
+      List<dynamic> fetchedNews = await fetchHeartHealthData();
+
+      if (mounted) {
+        setState(() {
+          healthNews = fetchedNews;
+          isLoading = false;
+          hasError = fetchedNews.isEmpty;
+        });
+      }
+    } catch (error) {
+      if (mounted) {
+        setState(() {
+          healthNews = [];
+          isLoading = false;
+          hasError = true;
+        });
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,41 +68,9 @@ class _HomePageState extends State<HomePage> {
     double screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        foregroundColor: primaryColor,
-        leading: Container(),
-        leadingWidth: 0,
-        title: const Row(
-          children: [
-            SizedBox(
-              height: 32,
-              width: 42,
-              child: Image(
-                image: AssetImage('assets/images/Pulse_Icon.png'),
-                color: primaryColor,
-                fit: BoxFit.cover,
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 8.0),
-              child: Text(
-                'Pulse',
-                style: TextStyle(
-                  fontSize: 32,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-      resizeToAvoidBottomInset:
-          true, // Avoid overflow when the keyboard appears
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 25),
+          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -73,15 +85,15 @@ class _HomePageState extends State<HomePage> {
                     color: primaryColor,
                     fontWeight: FontWeight.w900,
                   ),
-                  const TextSpan(
+                  TextSpan(
                     text: 'Hello,\n',
                     children: [
                       TextSpan(
-                        text: 'Samuel',
-                        style: TextStyle(
+                        text: '${widget.userInfo["user_name"]}',
+                        style: const TextStyle(
                           color: Colors.black,
                         ),
-                      )
+                      ),
                     ],
                   ),
                 ),
@@ -124,55 +136,96 @@ class _HomePageState extends State<HomePage> {
               ),
               const SizedBox(height: 20),
               SizedBox(
-                height: 200, // Set a fixed height for the horizontal list
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: healthNews.length,
-                  itemBuilder: (context, index) {
-                    return Card(
-                      elevation: 2,
-                      margin: const EdgeInsets.only(right: 10),
-                      child: Container(
-                        padding: const EdgeInsets.all(16),
-                        width: 0.8 * screenWidth,
-                        decoration: const BoxDecoration(
-                          color: secondaryColor,
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(20),
-                          ),
+                height: 300, // Adjusted height to fit the content
+                child: isLoading
+                    ? const Center(
+                        child: CircularProgressIndicator(
+                          color: primaryColor,
                         ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Health News ${index + 1}',
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w700,
-                                fontSize: 17,
-                              ),
-                            ),
-                            const Text(
-                              '...did you know?',
-                              style: TextStyle(
-                                color: primaryColor,
-                                fontStyle: FontStyle.italic,
-                                fontSize: 17,
-                              ),
-                            ),
-                            Expanded(
-                              child: Text(
-                                healthNews[index],
-                                style: const TextStyle(
-                                  fontSize: 17,
+                      ) // Show loader while fetching data
+                    : hasError
+                        ? Center(
+                            child: Column(
+                              children: [
+                                const Text(
+                                  'Retry or Check your Internet Connection.',
+                                  style: TextStyle(
+                                    color: Colors.red,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                  ),
                                 ),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    );
-                  },
-                ),
+                                const SizedBox(height: 10),
+                                CustomElevatedButton(
+                                  value: 'Retry',
+                                  onPressedFunc: fetchHealthNews,
+                                ),
+                              ],
+                            ),
+                          )
+                        : ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: healthNews.length,
+                            itemBuilder: (context, index) {
+                              final article = healthNews[index];
+                              return Container(
+                                margin: const EdgeInsets.only(right: 10),
+                                width: 0.8 * screenWidth,
+                                child: Stack(
+                                  children: [
+                                    // Background image
+                                    Positioned.fill(
+                                      child: article['top_image'] != null
+                                          ? Image.network(
+                                              article['top_image'],
+                                              fit: BoxFit.cover,
+                                            )
+                                          : Container(
+                                              color: Colors.grey[300],
+                                            ),
+                                    ),
+                                    // Overlay for text
+                                    Positioned(
+                                      bottom: 0,
+                                      left: 0,
+                                      right: 0,
+                                      child: Container(
+                                        padding: const EdgeInsets.all(8),
+                                        color: Colors.black.withOpacity(0.5),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              article['title'] ?? 'No Title',
+                                              style: const TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 16,
+                                              ),
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                            const SizedBox(height: 4),
+                                            Text(
+                                              article['short_description'] ??
+                                                  'No Description',
+                                              style: const TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 14,
+                                              ),
+                                              maxLines: 2,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                          ),
               ),
               const SizedBox(height: 20),
               Text(
