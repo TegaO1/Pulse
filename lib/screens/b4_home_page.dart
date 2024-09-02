@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:pulse/constants.dart';
 import 'package:pulse/screens/pending.dart';
+import 'package:pulse/screens/profile_page.dart';
 import 'home_page.dart';
 import 'test_page.dart';
 
@@ -28,7 +29,7 @@ class _B4HomePageState extends State<B4HomePage> {
               'password': user['password'].toString(),
               'id': user['id'].toString(),
               'user_name': user['user_name'].toString(),
-              'full_name': user['Ella Joy'].toString(),
+              'full_name': user['full_name'].toString(),
               'gender': user['gender'].toString(),
               'phone_number': user['phone_number'].toString(),
             })
@@ -69,7 +70,7 @@ class _B4HomePageState extends State<B4HomePage> {
           List pages = [
             HomePage(userInfo: userInfo),
             const TestPage(),
-            const Pending(),
+            ProfilePage(userInfo: userInfo),
           ];
 
           return Scaffold(
