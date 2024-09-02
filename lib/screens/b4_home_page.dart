@@ -24,9 +24,13 @@ class _B4HomePageState extends State<B4HomePage> {
     // Safely parse the list of users ensuring each user is a Map<String, String>
     List<Map<String, String>> users = (data['users'] as List)
         .map((user) => {
-              'id': user['id'].toString(),
               'email': user['email'].toString(),
               'password': user['password'].toString(),
+              'id': user['id'].toString(),
+              'user_name': user['user_name'].toString(),
+              'full_name': user['Ella Joy'].toString(),
+              'gender': user['gender'].toString(),
+              'phone_number': user['phone_number'].toString(),
             })
         .toList();
 
@@ -59,6 +63,7 @@ class _B4HomePageState extends State<B4HomePage> {
         } else {
           // Data loaded successfully
           Map<String, String> userInfo = snapshot.data ?? {};
+          debugPrint("$userInfo");
 
           // Define pages with userInfo available
           List pages = [

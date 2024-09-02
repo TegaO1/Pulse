@@ -89,7 +89,7 @@ class _HomePageState extends State<HomePage> {
                     text: 'Hello,\n',
                     children: [
                       TextSpan(
-                        text: '${widget.userInfo["user_name"]}',
+                        text: '${widget.userInfo['user_name']}',
                         style: const TextStyle(
                           color: Colors.black,
                         ),

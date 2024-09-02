@@ -32,8 +32,14 @@ class _LoginPageState extends State<LoginPage> {
         .map((user) => {
               'email': user['email'].toString(),
               'password': user['password'].toString(),
+              'id': user['id'].toString(),
+              'user_name': user['user_name'].toString(),
+              'full_name': user['Ella Joy'].toString(),
+              'gender': user['gender'].toString(),
+              'phone_number': user['phone_number'].toString(),
             })
         .toList();
+    debugPrint("$users");
     return users;
   }
 
@@ -44,6 +50,7 @@ class _LoginPageState extends State<LoginPage> {
 
     // Load user data from JSON
     final List<Map<String, String>> users = await _loadUserData();
+    debugPrint("$users");
 
     // Check if the entered credentials match any user in the JSON file
     final isAuthenticated = users.any(
@@ -54,6 +61,8 @@ class _LoginPageState extends State<LoginPage> {
     for (var user in users) {
       if (isAuthenticated && user['email'] == email) {
         userID = user['id'].toString();
+        debugPrint("User ID : $userID");
+        debugPrint("$user");
       }
     }
 
