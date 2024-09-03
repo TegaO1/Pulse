@@ -107,7 +107,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 70,
               ),
               Container(
@@ -123,15 +123,15 @@ class _ProfilePageState extends State<ProfilePage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.person_2,
                           color: primaryColor,
                           size: 21,
                         ),
-                        SizedBox(width: 21),
+                        const SizedBox(width: 21),
                         Text(
                           "${widget.userInfo["full_name"]}",
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 21,
                             color: primaryColor,
                             fontWeight: FontWeight.w600,
@@ -143,15 +143,15 @@ class _ProfilePageState extends State<ProfilePage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Icon(
+                        const Icon(
                           BoxIcons.bx_male_female,
                           color: primaryColor,
                           size: 21,
                         ),
-                        SizedBox(width: 21),
+                        const SizedBox(width: 21),
                         Text(
                           "${widget.userInfo["gender"]}",
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 21,
                             color: primaryColor,
                             fontWeight: FontWeight.w600,
@@ -163,15 +163,15 @@ class _ProfilePageState extends State<ProfilePage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.call,
                           color: primaryColor,
                           size: 21,
                         ),
-                        SizedBox(width: 21),
+                        const SizedBox(width: 21),
                         Text(
                           "${widget.userInfo["phone_number"]}",
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 21,
                             color: primaryColor,
                             fontWeight: FontWeight.w600,
