@@ -147,6 +147,7 @@ class _HomePageState extends State<HomePage> {
                         ? Center(
                             child: Column(
                               children: [
+                                smallSpace2x,
                                 const Text(
                                   'Retry or Check your Internet Connection.',
                                   style: TextStyle(
@@ -169,7 +170,8 @@ class _HomePageState extends State<HomePage> {
                             itemBuilder: (context, index) {
                               final article = healthNews[index];
                               return Container(
-                                margin: const EdgeInsets.only(right: 10),
+                                padding: const EdgeInsets.all(20),
+                                margin: const EdgeInsets.only(bottom: 10),
                                 width: 0.8 * screenWidth,
                                 child: Stack(
                                   children: [
@@ -226,40 +228,6 @@ class _HomePageState extends State<HomePage> {
                               );
                             },
                           ),
-              ),
-              const SizedBox(height: 20),
-              Text(
-                'History',
-                style: TextStyle(
-                  fontSize: 0.024 * screenHeight,
-                  fontWeight: FontWeight.w700,
-                  color: primaryColor,
-                ),
-              ),
-              const SizedBox(height: 10),
-              Container(
-                width: double.infinity,
-                height: (screenHeight * 0.75),
-                decoration: const BoxDecoration(
-                  color: primaryColor,
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(20),
-                  ),
-                ),
-                padding: const EdgeInsets.all(16),
-                child: ListView.builder(
-                  itemCount: 100, // Sample item count
-                  itemBuilder: (context, index) {
-                    return const Text(
-                      '----- History Section -----',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 17,
-                      ),
-                      textAlign: TextAlign.center,
-                    );
-                  },
-                ),
               ),
             ],
           ),

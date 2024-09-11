@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:pulse/constants.dart';
-import 'package:pulse/custom_widgets/custom_elevated_button.dart';
-import 'package:pulse/fetch_data.dart'; // Import the fetchHeartHealthData function from this file
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({
@@ -34,8 +32,8 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    double screenHeight = MediaQuery.of(context).size.height;
-    double screenWidth = MediaQuery.of(context).size.width;
+    // double screenHeight = MediaQuery.of(context).size.height;
+    // double screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
       body: SafeArea(

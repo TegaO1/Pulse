@@ -3,29 +3,29 @@
       {
         "id": 1,
         "email": "user1@example.com",
-        "password": "password123",
+        "password": "ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f",
         "user_name": "Joy",
         "full_name": "Ella Joy",
         "gender": "Female",
-        "phone_number": "070534243482"
+        "phone_number": "+44 00 1111 1111"
       },
       {
         "id": 2,
         "email": "user2@example.com",
-        "password": "password123",
+        "password": "ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f",
         "user_name": "Samuel",
         "full_name": "Ojo Samuel",
         "gender": "Male",
-        "phone_number": "07055943482"
+        "phone_number": "+44 00 1111 1111"
       },
       {
         "id": 3,
         "email": "user3@example.com",
-        "password": "password123",
+        "password": "ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f",
         "user_name": "Chad",
         "full_name": "Richard Scott",
         "gender": "Male",
-        "phone_number": "07055350482"
+        "phone_number": "+44 00 1111 1111"
       }
     ]
   }

@@ -116,20 +116,23 @@ class _TestPageState extends State<TestPage> {
                 smallSpace2x,
                 CustomTextFormField(
                   hint: 'Age',
-                  prefixIcon: Icon(Icons.calendar_month_outlined),
+                  prefixIcon: const Icon(Icons.calendar_month_outlined),
                   controller: ageController,
+                  textInputType: TextInputType.number,
                 ),
                 smallSpace,
                 CustomTextFormField(
                   hint: 'Height (m)',
-                  prefixIcon: Icon(Icons.height_outlined),
+                  prefixIcon: const Icon(Icons.height_outlined),
                   controller: heightController,
+                  textInputType: TextInputType.number,
                 ),
                 smallSpace,
                 CustomTextFormField(
                   hint: 'Weight (kg)',
-                  prefixIcon: Icon(Icons.scale),
+                  prefixIcon: const Icon(Icons.scale),
                   controller: weightController,
+                  textInputType: TextInputType.number,
                 ),
                 smallSpace2x,
                 CustomElevatedButton(
@@ -154,7 +157,7 @@ class _TestPageState extends State<TestPage> {
                 if (isTested)
                   Container(
                     // alignment: Alignment.center,
-                    padding: EdgeInsets.symmetric(
+                    padding: const EdgeInsets.symmetric(
                       horizontal: 20.0,
                       vertical: 10,
                     ),
@@ -165,7 +168,7 @@ class _TestPageState extends State<TestPage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(width: double.infinity),
+                        const SizedBox(width: double.infinity),
                         Text(
                           'BMI: ${bmi.toStringAsFixed(4)}',
                           style: TextStyle(

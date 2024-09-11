@@ -9,6 +9,7 @@ import 'package:pulse/screens/pending.dart';
 import 'package:pulse/screens/signup_page.dart';
 import '../custom_widgets/custom_elevated_button.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:crypto/crypto.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -46,7 +47,7 @@ class _LoginPageState extends State<LoginPage> {
   /// Function to authenticate the user based on email and password
   Future<void> _authenticateUser() async {
     final String email = emailController.text.trim();
-    final String password = passwordController.text;
+    // final String password = passwordController.text;
 
     // Load user data from JSON
     final List<Map<String, String>> users = await _loadUserData();
@@ -54,7 +55,8 @@ class _LoginPageState extends State<LoginPage> {
 
     // Check if the entered credentials match any user in the JSON file
     final isAuthenticated = users.any(
-      (user) => user['email'] == email && user['password'] == password,
+      (user) =>
+          user['email'] == email && user['password'] == _convertToSha256(),
     );
     String userID = '';
 
@@ -85,6 +87,13 @@ class _LoginPageState extends State<LoginPage> {
         });
       }
     }
+  }
+
+  String _convertToSha256() {
+    final input = passwordController.text;
+    final bytes = utf8.encode(input); // Convert input to bytes
+    final digest = sha256.convert(bytes);
+    return digest.toString(); // Generate SHA-256 hash
   }
 
   @override

@@ -1,12 +1,12 @@
 import 'dart:convert'; // For JSON encoding and decoding
 import 'package:http/http.dart' as http;
+import 'variables.dart';
 
 /// Function to fetch data from the API and return the list of news articles.
 Future<List<Map<String, dynamic>>> fetchHeartHealthData() async {
   final url = Uri.parse("https://newsnow.p.rapidapi.com/newsv2_top_news_cat");
   final headers = {
-    'x-rapidapi-key':
-        '7ca67619cemsha6f91a1a4815f52p199488jsn56f691b86ea5', // Replace with your actual key
+    'x-rapidapi-key': apiKey, // Replace with your actual key
     'x-rapidapi-host': 'newsnow.p.rapidapi.com',
     'Content-Type': 'application/json',
   };
