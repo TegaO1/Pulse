@@ -14,7 +14,6 @@ class LandingPage extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: secondaryColor,
-      extendBodyBehindAppBar: true,
       appBar: AppBar(
         backgroundColor: secondaryColor,
       ),
@@ -56,16 +55,14 @@ class LandingPage extends StatelessWidget {
             ),
             Padding(
               padding: EdgeInsets.symmetric(vertical: (0.01 * screenHeight)),
-              child: Expanded(
-                child: Text(
-                  '...with health solutions right at your fingertips',
-                  style: TextStyle(
-                    fontSize: (0.024 * screenHeight),
-                    fontWeight: FontWeight.w400,
-                    color: const Color.fromARGB(255, 95, 93, 93),
-                  ),
-                  textAlign: TextAlign.center,
+              child: Text(
+                '...with health solutions right at your fingertips',
+                style: TextStyle(
+                  fontSize: (0.024 * screenHeight),
+                  fontWeight: FontWeight.w400,
+                  color: const Color.fromARGB(255, 95, 93, 93),
                 ),
+                textAlign: TextAlign.center,
               ),
             ),
             SizedBox(

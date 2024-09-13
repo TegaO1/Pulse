@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:pulse/constants.dart';
-import 'package:pulse/screens/pending.dart';
 import 'package:pulse/screens/profile_page.dart';
 import 'home_page.dart';
 import 'test_page.dart';
@@ -64,7 +63,6 @@ class _B4HomePageState extends State<B4HomePage> {
         } else {
           // Data loaded successfully
           Map<String, String> userInfo = snapshot.data ?? {};
-          debugPrint("$userInfo");
 
           // Define pages with userInfo available
           List pages = [

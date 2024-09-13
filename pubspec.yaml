@@ -39,11 +39,14 @@ dependencies:
   http: ^1.2.2
   crypto: ^3.0.5
   path_provider: ^2.1.4
+  rename: ^3.0.2
+  version: ^3.0.2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_launcher_icons: ^0.13.1
+  flutter_native_splash: ^2.4.1
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -58,6 +61,15 @@ flutter_icons:
   image_path: 'assets/images/appIcon.png'
   adaptive_icon_background: '#9e0d0d'
   adaptive_icon_foreground: 'assets/images/appIcon_foreground.png'
+
+flutter_native_splash:
+  color: "#ffffff"  # Background color of the splash screen
+  image: assets/images/Pulse_Icon.png  # Path to your splash screen logo
+  android: true  # Enable for Android
+  ios: true      # Enable for iOS
+  web: false     # Disable for web (optional)
+  fullscreen: true  # Optional: Set to true if you want a full screen splash
+
   
 
 # For information on the generic Dart part of this file, see the

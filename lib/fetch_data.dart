@@ -29,14 +29,11 @@ Future<List<Map<String, dynamic>>> fetchHeartHealthData() async {
       const Duration(minutes: 1),
       onTimeout: () {
         // Timeout after 1 minute
-        print('Request timed out after 1 minute.');
         return http.Response('Error: Request Timeout', 408);
       },
     );
 
     // Log response for debugging
-    print('Response status: ${response.statusCode}');
-    print('Response body: ${response.body}');
 
     if (response.statusCode == 200) {
       // Parse the response and handle possible null values
@@ -63,15 +60,12 @@ Future<List<Map<String, dynamic>>> fetchHeartHealthData() async {
         return articles;
       } else {
         // If 'news' is not present or not a list, log details
-        print('Unexpected response structure. Data: $data');
         return [];
       }
     } else {
-      print('Failed to load data: ${response.statusCode}');
       return [];
     }
   } catch (e) {
-    print('Error: $e');
     return [];
   }
 }
