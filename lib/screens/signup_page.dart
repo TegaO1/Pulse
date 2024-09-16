@@ -7,7 +7,6 @@ import 'package:pulse/custom_widgets/custom_elevated_button.dart';
 import 'package:pulse/screens/pending.dart';
 
 import '../custom_widgets/custom_text_field.dart';
-// import 'package:icons_plus/icons_plus.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -17,6 +16,12 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
+  final _formKey = GlobalKey<FormState>(); // Add a global key for the form
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
+  final TextEditingController usernameController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
   bool? _isChecked = false;
 
   @override
@@ -51,36 +56,87 @@ class _SignUpPageState extends State<SignUpPage> {
             width: double.infinity,
             padding: const EdgeInsets.all(20),
             child: Form(
+              key: _formKey, // Assign the form key
               child: Column(
                 children: [
                   smallSpace,
-                  const CustomTextFormField(
+                  CustomTextFormField(
                     hint: 'Name',
-                    prefixIcon: Icon(Icons.person_2_outlined),
+                    prefixIcon: const Icon(Icons.person_2_outlined),
+                    controller: nameController,
+                    textFormValidator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your name';
+                      }
+                      return null;
+                    },
                   ),
                   smallSpace,
                   const CustomDropDownButton(),
                   smallSpace,
-                  const CustomTextFormField(
+                  CustomTextFormField(
                     hint: 'Email',
-                    prefixIcon: Icon(Icons.mail_outline_rounded),
+                    prefixIcon: const Icon(Icons.mail_outline_rounded),
                     textInputType: TextInputType.emailAddress,
+                    controller: emailController,
+                    textFormValidator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your email';
+                      }
+                      final emailRegex =
+                          RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+                      if (!emailRegex.hasMatch(value)) {
+                        return 'Please enter a valid email address';
+                      }
+                      return null;
+                    },
                   ),
                   smallSpace,
-                  const CustomTextFormField(
+                  CustomTextFormField(
                     hint: 'Phone Number',
-                    prefixIcon: Icon(BoxIcons.bx_phone),
+                    prefixIcon: const Icon(BoxIcons.bx_phone),
                     textInputType: TextInputType.phone,
+                    controller: phoneController,
+                    textFormValidator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your phone number';
+                      }
+                      final phoneRegex = RegExp(r'^\+?[\d\s]{7,15}$');
+                      if (!phoneRegex.hasMatch(value)) {
+                        return 'Please enter a valid phone number';
+                      }
+                      return null;
+                    },
                   ),
                   smallSpace,
-                  const CustomTextFormField(
+                  CustomTextFormField(
                     hint: 'Username',
-                    prefixIcon: Icon(Icons.person_add_alt_1_outlined),
+                    prefixIcon: const Icon(Icons.person_add_alt_1_outlined),
+                    controller: usernameController,
+                    textFormValidator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter a username';
+                      }
+                      if (value.length < 3) {
+                        return 'Username must be at least 3 characters long';
+                      }
+                      return null;
+                    },
                   ),
                   smallSpace,
-                  const CustomTextFormField(
+                  CustomTextFormField(
                     hint: 'Password',
-                    prefixIcon: Icon(Icons.lock_outline_rounded),
+                    prefixIcon: const Icon(Icons.lock_outline_rounded),
+                    controller: passwordController,
+                    textFormValidator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your password';
+                      }
+                      if (value.length < 6) {
+                        return 'Password must be at least 6 characters long';
+                      }
+                      return null;
+                    },
                   ),
                   smallSpace,
                   Row(
@@ -140,16 +196,27 @@ class _SignUpPageState extends State<SignUpPage> {
                   CustomElevatedButton(
                     value: 'Sign Up',
                     onPressedFunc: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const Pending(),
-                        ),
-                      );
+                      if (_formKey.currentState?.validate() ?? false) {
+                        if (!_isChecked!) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content:
+                                  Text('Please agree to the Terms of Service'),
+                            ),
+                          );
+                          return;
+                        }
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const Pending(),
+                          ),
+                        );
+                      }
                     },
                     isExpanded: true,
                     buttonElevation: 5,
-                  )
+                  ),
                 ],
               ),
             ),

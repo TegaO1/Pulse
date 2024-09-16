@@ -10,12 +10,14 @@ class CustomTextFormField extends StatefulWidget {
     required this.prefixIcon,
     this.textInputType = TextInputType.text,
     this.controller,
+    required this.textFormValidator,
   });
 
   final String hint;
   final Icon prefixIcon;
   final TextInputType textInputType;
   final TextEditingController? controller;
+  final FormFieldValidator textFormValidator;
 
   @override
   State<CustomTextFormField> createState() => _CustomTextFormFieldState();
@@ -39,7 +41,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         obscureText: (widget.hint.toLowerCase() == 'password')
             ? !_showPassword
             : _showPassword,
-        // obscuringCharacter: '*',
+        validator: widget.textFormValidator,
         cursorColor: primaryColor,
         keyboardType: widget.textInputType,
         textCapitalization: TextCapitalization.none,

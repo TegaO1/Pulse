@@ -19,6 +19,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final _formKey = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   String errorMessage = '';
@@ -124,6 +125,7 @@ class _LoginPageState extends State<LoginPage> {
             padding: const EdgeInsets.all(20),
             width: double.infinity,
             child: Form(
+              key: _formKey,
               child: Column(
                 children: [
                   smallSpace,
@@ -132,12 +134,30 @@ class _LoginPageState extends State<LoginPage> {
                     prefixIcon: const Icon(Icons.mail_outline_rounded),
                     textInputType: TextInputType.emailAddress,
                     controller: emailController,
+                    textFormValidator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your email';
+                      }
+                      if (value.length < 6) {
+                        return 'Password must be at least 6 characters long';
+                      }
+                      return null;
+                    },
                   ),
                   smallSpace,
                   CustomTextFormField(
                     hint: 'Password',
                     prefixIcon: const Icon(Icons.lock_outline_rounded),
                     controller: passwordController,
+                    textFormValidator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your password';
+                      }
+                      if (value.length < 6) {
+                        return 'Password must be at least 6 characters long';
+                      }
+                      return null;
+                    },
                   ),
                   if (errorMessage.isNotEmpty)
                     Padding(
@@ -167,8 +187,11 @@ class _LoginPageState extends State<LoginPage> {
                   smallSpace,
                   CustomElevatedButton(
                     value: 'Login',
-                    onPressedFunc:
-                        _authenticateUser, // Call authenticate function
+                    onPressedFunc: () {
+                      if (_formKey.currentState?.validate() ?? false) {
+                        _authenticateUser(); // Call authenticate function
+                      }
+                    }, // Call authenticate function
                     buttonElevation: 5,
                     isExpanded: true,
                     replace: true,

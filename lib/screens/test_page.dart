@@ -11,6 +11,7 @@ class TestPage extends StatefulWidget {
 }
 
 class _TestPageState extends State<TestPage> {
+  final _formKey = GlobalKey<FormState>(); // Add a form key for validation
   final TextEditingController heightController = TextEditingController();
   final TextEditingController weightController = TextEditingController();
   final TextEditingController ageController = TextEditingController();
@@ -103,6 +104,7 @@ class _TestPageState extends State<TestPage> {
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
           child: Form(
+            key: _formKey, // Assign the form key
             child: Column(
               children: [
                 Text(
@@ -119,6 +121,16 @@ class _TestPageState extends State<TestPage> {
                   prefixIcon: const Icon(Icons.calendar_month_outlined),
                   controller: ageController,
                   textInputType: TextInputType.number,
+                  textFormValidator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your age';
+                    }
+                    final age = int.tryParse(value);
+                    if (age == null || age < 2 || age > 120) {
+                      return 'Please enter a valid age between 2 and 120';
+                    }
+                    return null;
+                  },
                 ),
                 smallSpace,
                 CustomTextFormField(
@@ -126,6 +138,16 @@ class _TestPageState extends State<TestPage> {
                   prefixIcon: const Icon(Icons.height_outlined),
                   controller: heightController,
                   textInputType: TextInputType.number,
+                  textFormValidator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your height';
+                    }
+                    final height = double.tryParse(value);
+                    if (height == null || height <= 0 || height > 2.5) {
+                      return 'Please enter a valid height in meters (e.g., 1.75)';
+                    }
+                    return null;
+                  },
                 ),
                 smallSpace,
                 CustomTextFormField(
@@ -133,15 +155,27 @@ class _TestPageState extends State<TestPage> {
                   prefixIcon: const Icon(Icons.scale),
                   controller: weightController,
                   textInputType: TextInputType.number,
+                  textFormValidator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your weight';
+                    }
+                    final weight = double.tryParse(value);
+                    if (weight == null || weight <= 0 || weight > 300) {
+                      return 'Please enter a valid weight in kilograms (e.g., 70)';
+                    }
+                    return null;
+                  },
                 ),
                 smallSpace2x,
                 CustomElevatedButton(
                   value: "Test",
                   onPressedFunc: () {
-                    calculateBMI(
-                      double.parse(weightController.text),
-                      double.parse(heightController.text),
-                    );
+                    if (_formKey.currentState!.validate()) {
+                      calculateBMI(
+                        double.parse(weightController.text),
+                        double.parse(heightController.text),
+                      );
+                    }
                   },
                   isExpanded: true,
                 ),
@@ -156,7 +190,6 @@ class _TestPageState extends State<TestPage> {
                 ),
                 if (isTested)
                   Container(
-                    // alignment: Alignment.center,
                     padding: const EdgeInsets.symmetric(
                       horizontal: 20.0,
                       vertical: 10,
