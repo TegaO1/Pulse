@@ -2,7 +2,7 @@
     "users": [
       {
         "id": 1,
-        "email": "user1@example.com",
+        "email": "user1@gmail.com",
         "password": "ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f",
         "user_name": "Joy",
         "full_name": "Ella Joy",
@@ -11,7 +11,7 @@
       },
       {
         "id": 2,
-        "email": "user2@example.com",
+        "email": "user2@gmail.com",
         "password": "ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f",
         "user_name": "Samuel",
         "full_name": "Ojo Samuel",
@@ -20,7 +20,7 @@
       },
       {
         "id": 3,
-        "email": "user3@example.com",
+        "email": "user3@gmail.com",
         "password": "ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f",
         "user_name": "Chad",
         "full_name": "Richard Scott",
